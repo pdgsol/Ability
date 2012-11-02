@@ -1,10 +1,9 @@
 package com.example.ability;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 
 public class Play extends Activity {
 
@@ -14,7 +13,21 @@ public class Play extends Activity {
         setContentView(R.layout.activity_play);
     }
 
-
+    public void openPlaySimonView(View view) {
+    	//Utils u = new Utils();
+    	//u.openView(this, Play.class);
+    	
+    	Intent intent = new Intent(this, PlaySimon.class);
+        startActivity(intent);
+    }
+    
+    public void openPlayDodgingView(View view) {
+    	//Utils u = new Utils();
+    	//u.openView(this, Play.class);
+    	
+    	//Intent intent = new Intent(this, Ranking.class);
+        //startActivity(intent);
+    }
 
     
 }

@@ -31,9 +31,20 @@
             </intent-filter>
         </activity>
         
-         <activity
+        <activity
             android:name=".Ranking"
             android:label="@string/title_activity_ranking" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        
+        <activity
+            android:name=".PlaySimon"
+            android:label="@string/title_activity_play_simon" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

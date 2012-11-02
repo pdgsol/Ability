@@ -14,5 +14,14 @@
     <string name="title_activity_play">Play</string>
 	<string name="title_activity_ranking">Ranking</string>
 	<string name="title_activity_help">Help</string>
+	<string name="title_activity_play_simon">Play Simon</string>
 
+	
+		<string name="simon">Simon</string>
+    <string name="dodging">Dodging</string>
+	
+	
+	<string name="simon_ranking">Simon Ranking</string>
+    <string name="dodging_ranking">Dodging Ranking</string>
+	
 </resources>
