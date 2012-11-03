@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ranking"
-             android:onClick="openRankingView"/>
+            android:onClick="openRankingView"/>
 
         <Button
             android:id="@+id/settings"
@@ -38,7 +38,8 @@
             android:id="@+id/exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/exit" />
+            android:text="@string/exit"
+            android:onClick="exitAlert"/>
 
     </LinearLayout>
 

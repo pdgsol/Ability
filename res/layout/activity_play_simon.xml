@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-      <LinearLayout
+     <LinearLayout
       android:orientation="vertical"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent" >
@@ -17,13 +17,14 @@
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		xmlns:android="http://schemas.android.com/apk/res/android">
 		
-			<TableRow android:id="@+id/TableRow01">
+		<TableRow android:id="@+id/TableRow01">
 				<TextView 
 				    android:id="@+id/Green"
 					android:width="150dp"
 					android:height="150dp"
 					android:background="#008000"
-					android:onClick="shineColor"/>
+					android:onClick="shineColor"
+					android:clickable="true"/>
 				
 				
 				<TextView
@@ -31,7 +32,10 @@
 					android:width="150dp"
 					android:height="150dp"
 					android:background="#FF0000"
-					android:onClick="shineColor"/>
+					android:onClick="shineColor"
+					android:clickable="true"/>
+				
+
 				
 			</TableRow>
 			
@@ -42,18 +46,51 @@
 				    android:width="150dp"
 				    android:height="150dp"
 				    android:background="#1E90FF"
-				    android:onClick="shineColor"/>
+				    android:onClick="shineColor"
+				    android:clickable="true"/>
 	
 				<TextView
 				    android:id="@+id/Yellow"
 				    android:width="150dp"
 				    android:height="150dp"
 				    android:background="#FFD700"
-				    android:onClick="shineColor"/>
+				    android:onClick="shineColor"
+				    android:clickable="true"/>
 	
 			</TableRow>
-		
+			
+			<TableRow android:id="@+id/TableRow03">
+	
+			<TextView
+			    android:id="@+id/simon_score"
+			    android:width="100dp"
+			    android:text="@string/score"/>
+			</TableRow>
+			
+			<TableRow android:id="@+id/TableRow04">
+	
+		        <Button
+		            android:id="@+id/button_Start_Simon"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/play"
+		            android:onClick="shineColor"/>
+		        
+     		        <Button
+		            android:id="@+id/button_exit_Simon"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/exit"/>
+		        
+			</TableRow>	
+			
 		</TableLayout>
+
 	</LinearLayout>
+	
+
+
+
+
    
 </RelativeLayout>

@@ -17,10 +17,12 @@
 	<string name="title_activity_play_simon">Play Simon</string>
 
 	
-		<string name="simon">Simon</string>
+	<string name="simon">Simon</string>
     <string name="dodging">Dodging</string>
 	
 	
+    <string name="score">Score</string>
+    
 	<string name="simon_ranking">Simon Ranking</string>
     <string name="dodging_ranking">Dodging Ranking</string>
 	
