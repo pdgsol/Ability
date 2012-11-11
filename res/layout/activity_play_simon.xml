@@ -19,20 +19,20 @@
 		
 		<TableRow android:id="@+id/TableRow01">
 				<TextView 
-				    android:id="@+id/Green"
+				    android:id="@+id/SimonGreen"
 					android:width="150dp"
 					android:height="150dp"
-					android:background="#008000"
-					android:onClick="shineColor"
+					android:background="#00FF00"
+					android:onClick="colorClicked"
 					android:clickable="true"/>
 				
 				
 				<TextView
-				    android:id="@+id/Red"
+				    android:id="@+id/SimonRed"
 					android:width="150dp"
 					android:height="150dp"
 					android:background="#FF0000"
-					android:onClick="shineColor"
+					android:onClick="colorClicked"
 					android:clickable="true"/>
 				
 
@@ -42,19 +42,19 @@
 			<TableRow android:id="@+id/TableRow02">
 	
 				<TextView
-				    android:id="@+id/Blue"
+				    android:id="@+id/SimonBlue"
 				    android:width="150dp"
 				    android:height="150dp"
-				    android:background="#1E90FF"
-				    android:onClick="shineColor"
+				    android:background="#0000FF"
+				    android:onClick="colorClicked"
 				    android:clickable="true"/>
 	
 				<TextView
-				    android:id="@+id/Yellow"
+				    android:id="@+id/SimonYellow"
 				    android:width="150dp"
 				    android:height="150dp"
-				    android:background="#FFD700"
-				    android:onClick="shineColor"
+				    android:background="#FFFF33"
+				    android:onClick="colorClicked"
 				    android:clickable="true"/>
 	
 			</TableRow>
@@ -74,7 +74,7 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:text="@string/play"
-		            android:onClick="shineColor"/>
+		            android:onClick="startSimon"/>
 		        
      		        <Button
 		            android:id="@+id/button_exit_Simon"

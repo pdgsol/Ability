@@ -6,42 +6,346 @@ import java.util.Vector;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 public class PlaySimon extends Activity {
 
+    enum eSimonColor
+    {
+    	Green,
+    	Blue,
+    	Red,
+    	Yellow
+    }
+	
+	private Integer numberColors = 4;
+    private Integer iIDColorPressed;
+    private Integer iOriginalColor;
+    private Integer iRound;
+    private Integer iInitialLevel;
+    private Vector<eSimonColor> vSequence;
+
+    private Integer iActualarIDColor;
+    private Integer iIndexNextColor;
+    
+    private Integer iIndexSequence;
+    
+    private boolean bColorShine = false;
+    private boolean bPlayerTurn = false;
+    private Integer iTimeBlink = 500;
+    private Integer iTimeBetween = 1500;
+
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_simon);
+        iInitialLevel = 2;
+        iIndexNextColor = 0;
+        generateSequence((iInitialLevel));  
+        setAllColorsClickable(false);
     }
     
-    
-    public Vector<Integer> generateSequrnce(Integer iLenghtSequence)
-    {
-    	Integer numberColors = 4;
-    	Vector<Integer> vSequence = new Vector<Integer>(iLenghtSequence);
+    public Vector<eSimonColor> generateSequence(Integer iLenghtSequence)
+    {	
+    	vSequence = new Vector<eSimonColor>(iLenghtSequence);
     	Random generator = new Random();
     	for(Integer i = 0; i < iLenghtSequence; ++i)
     	{
-    		vSequence.add(generator.nextInt(numberColors));
+    		eSimonColor eColor = convertEnumColor(generator.nextInt(numberColors));
+    		vSequence.add(eColor);
     	}
 		return vSequence;
     }
-
-
-
-	public void shineColor(View view) {
     
-    	TextView textView=(TextView)findViewById(R.id.Blue);
-    	textView.setBackgroundColor(Color.BLACK); 
+    private void increaseLevel()
+    {
+    	Random generator = new Random();
+    	vSequence.addElement(convertEnumColor(generator.nextInt(numberColors)));
+    }
+    
+    
+    private eSimonColor convertEnumColor (Integer iColor) 
+    {
+    	eSimonColor eColor = eSimonColor.Green;
+    	switch (iColor)
+    	{
+    	case 0 :
+    		eColor = eSimonColor.Green;
+    		break;
+    	case 1 :
+    		eColor = eSimonColor.Red;
+    		break;
+    	case 2 :
+    		eColor = eSimonColor.Blue;
+    		break;
+    	case 3 :
+    		eColor = eSimonColor.Yellow;
+    		break;
+    	
+    	}
+		return eColor;
+    }
+    
+    
+    /*private Integer iCodificationColor(eSimonColor color, boolean shine)
+    {
+    	Integer iCodificationColor = 0;
+    	switch (color)
+    	{
+    	case Green :
+    		if(shine) iCodificationColor =  0x0000;
+    		else iCodificationColor = 0x8000;
+    		break;
+    	case Red : 
+    		if(shine) iCodificationColor =  0x0000;
+			else iCodificationColor = 0xFF0000;
+    		break;
+    	case Blue :
+    		if(shine) iCodificationColor =  0x0000;
+    		else iCodificationColor = 0x1E90FF;
+    		break;
+    	case Yellow :
+    		if(shine) iCodificationColor =  0x0000;
+    		else iCodificationColor = 0xFFD700;
+    		break;
+    	
+    	}
+		return iCodificationColor;
+    }*/
+    
+    private Integer iCodificationColor(eSimonColor eColor, boolean shine)
+    {
+    	Integer iCodificationColor = 0;
+    	iCodificationColor = Color.rgb(255,255,255);
+    	switch (eColor)
+    	{
+    	case Green :
+    		if(shine) iCodificationColor = Color.rgb(0, 0, 0);
+    		else iCodificationColor = Color.rgb(0,255,0);
+    		break;
+    	case Red : 
+    		if(shine) iCodificationColor = Color.rgb(0, 0, 0);
+			else iCodificationColor = Color.rgb(255, 0, 0);
+    		break;
+    	case Blue :
+    		if(shine) iCodificationColor = Color.rgb(0, 0, 0);
+    		else iCodificationColor = Color.rgb(0,0, 255);
+    		break;
+    	case Yellow :
+    		if(shine) Color.rgb(0, 0, 0);
+    		else iCodificationColor =  Color.rgb(255,255,51);
+    		break;
+    	
+    	}
+		return iCodificationColor;
+    }
+    
+    
+    
+    private Integer getIDColor (eSimonColor eColor) 
+    {
+    	Integer iIDColor = 0;
+    	switch (eColor)
+    	{
+    	case Green :
+    		iIDColor = R.id.SimonGreen;
+    		break;
+    	case Red :
+    		iIDColor = R.id.SimonRed;
+    		break;
+    	case Blue :
+    		iIDColor = R.id.SimonBlue;
+    		break;
+    	case Yellow :
+    		iIDColor = R.id.SimonYellow;
+    		break;
+    	
+    	}
+		return iIDColor;
+    }
+    
+    private eSimonColor eColor(Integer iIDColor)
+    {
+    	eSimonColor color = eSimonColor.Red;
+    	switch (iIDColor)
+    	{
+    	case R.id.SimonGreen :
+    		color = eSimonColor.Green;
+    		break;
+    	case R.id.SimonRed :
+    		color = eSimonColor.Red;
+    		break;
+    	case R.id.SimonBlue :
+    		color = eSimonColor.Blue;
+    		break;
+    	case R.id.SimonYellow :
+    		color = eSimonColor.Yellow;
+    		break;
+    	
+    	}
+		return color;
+    	
+    }
+    
+    
+    private void setAllColorsClickable(boolean bClickable)
+    {
+    	TextView textView1=(TextView)findViewById(R.id.SimonGreen);
+    	textView1.setClickable(bClickable);
+    	textView1=(TextView)findViewById(R.id.SimonRed);
+    	textView1.setClickable(bClickable);
+    	textView1=(TextView)findViewById(R.id.SimonBlue);
+    	textView1.setClickable(bClickable);
+    	textView1=(TextView)findViewById(R.id.SimonYellow);
+    	textView1.setClickable(bClickable);
     }
 
     
+    private Handler handler = new Handler() {
+    	  @Override
+    	  public void handleMessage(Message msg) {
+    		  iActualarIDColor = (Integer) msg.obj; //getIDColor(vSequence.get((Integer) msg.obj));
+    		  TextView textView=(TextView)findViewById(iActualarIDColor);//getIDColor(vSequence.get((Integer)msg.obj)));
+			  Integer iCodificationColor = iCodificationColor(eColor(iActualarIDColor),true);
+			  textView.setBackgroundColor(iCodificationColor); 
+    		  
+    	  }
+    	 };
+
+/*	
     
+    private void shineColorTextView(Integer id)
+    {
+    	TextView textView=(TextView)findViewById(id);
+    	textView.setBackgroundColor(Color.BLACK); 
+    	
+    	// SLEEP 0.1 SECONDS HERE ...
+        Handler handler_g = new Handler(); 
+        handler_g.postDelayed(new Runnable() { 
+             public void run() { 
+       		  TextView textView=(TextView)findViewById(iIDColorPressed);
+       		  textView.setBackgroundColor(iOriginalColor); 
+             } 
+        }, 100); 
+    	
+    }
+    
+
+    
+    public void shineColor(View v) {
+    	iIDColorPressed = v.getId();
+    	iOriginalColor = Color.GRAY;//getResources().getColor(v.getId());
+    	
+    	
+    	shineColorTextView(v.getId());
+    }
+    */
+    public void startSimon(View v) {
+		
+		Thread th1 = new Thread(new Runnable() {
+			public void run() {
+
+				for(iIndexSequence = 0; iIndexSequence < vSequence.size(); ++iIndexSequence) {
+					
+					Message msg = new Message();
+					msg.obj = getIDColor(vSequence.get((Integer) iIndexSequence));
+					handler.sendMessage(msg);
+					//Thread.sleep(500);
+			        handler.postDelayed(new Runnable() { 
+			             public void run() { 
+			   			  TextView textView=(TextView)findViewById(iActualarIDColor);
+						  Integer iCodificationColor = iCodificationColor(eColor(iActualarIDColor),false);
+						  textView.setBackgroundColor(iCodificationColor);
+						  if(iIndexSequence.equals(vSequence.size()-1)) {
+							  bPlayerTurn = true;
+							  setAllColorsClickable(true);
+						  }
+						  
+			             } 
+			        }, iTimeBlink);
+		
+					try {
+						Thread.sleep(iTimeBetween);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						
+	    	    }        
+		       }
+		      });
+
+		th1.start();
+
+    }
+    
+    
+    private void blinkColorTouch()
+    {
+		Thread th1 = new Thread(new Runnable() {
+			public void run() {
+
+			
+				Message msg = new Message();
+				msg.obj = (Integer)iIDColorPressed;
+				handler.sendMessage(msg);
+				//Thread.sleep(500);
+		        handler.postDelayed(new Runnable() { 
+		             public void run() { 
+		   			  TextView textView=(TextView)findViewById(iActualarIDColor);
+					  Integer iCodificationColor = iCodificationColor(eColor(iActualarIDColor),false);
+					  textView.setBackgroundColor(iCodificationColor);
+					  if(iIndexSequence.equals(vSequence.size()-1)) {
+						  bPlayerTurn = true;
+						  setAllColorsClickable(true);
+					  }
+					  
+		             } 
+		        }, iTimeBlink);
+	
+				try {
+					Thread.sleep(iTimeBetween);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
+    	    }        
+	       
+	      });
+
+		th1.start();
+    	
+    }
+    
+    public void colorClicked(View v) {
+
+    	if (!bPlayerTurn) return;
+    	iIDColorPressed = v.getId();
+ 		blinkColorTouch();
+ 	   
+    	
+    	if(vSequence.get(iIndexNextColor) == eColor(iIDColorPressed)) {
+    		//Hit
+    		iIndexNextColor++;
+    		if(iIndexNextColor.equals(vSequence.size()))
+    		{
+    			increaseLevel();
+    			bPlayerTurn = false;
+    			iIndexNextColor = 0;
+    		}
+    		
+    	} else {
+    		//Fail
+    		bPlayerTurn = false;
+    		iIndexNextColor = 0;
+    	}
+    	
+    }
 
     
 }

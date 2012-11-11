@@ -24,15 +24,15 @@ public final class R {
         public static final int simon_yellow_1=0x7f020005;
     }
     public static final class id {
-        public static final int Blue=0x7f080010;
-        public static final int Green=0x7f08000d;
-        public static final int Red=0x7f08000e;
+        public static final int SimonBlue=0x7f080010;
+        public static final int SimonGreen=0x7f08000d;
+        public static final int SimonRed=0x7f08000e;
+        public static final int SimonYellow=0x7f080011;
         public static final int TableLayout01=0x7f08000b;
         public static final int TableRow01=0x7f08000c;
         public static final int TableRow02=0x7f08000f;
         public static final int TableRow03=0x7f080012;
         public static final int TableRow04=0x7f080014;
-        public static final int Yellow=0x7f080011;
         public static final int button_Play_Dodging=0x7f08000a;
         public static final int button_Play_Simon=0x7f080008;
         public static final int button_Start_Simon=0x7f080015;
