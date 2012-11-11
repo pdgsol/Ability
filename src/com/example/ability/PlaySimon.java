@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.Vector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,30 +25,38 @@ public class PlaySimon extends Activity {
 	
 	private Integer numberColors = 4;
     private Integer iIDColorPressed;
-    private Integer iOriginalColor;
     private Integer iRound;
+    private Integer iMaxRound;
+    private Integer iScore;
     private Integer iInitialLevel;
     private Vector<eSimonColor> vSequence;
-
     private Integer iActualarIDColor;
     private Integer iIndexNextColor;
-    
     private Integer iIndexSequence;
-    
-    private boolean bColorShine = false;
     private boolean bPlayerTurn = false;
-    private Integer iTimeBlink = 500;
-    private Integer iTimeBetween = 1500;
-
-    
+    private Integer iTimeBlink;
+    private Integer iTimeBetween;
+    private Integer iIncrementScore = 10;
+ 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_simon);
+        initConfig();    }
+    
+    private void initConfig()
+    {
         iInitialLevel = 2;
         iIndexNextColor = 0;
         generateSequence((iInitialLevel));  
         setAllColorsClickable(false);
+        iRound = 1;
+        iScore = 0;
+        iTimeBlink = 500;
+        iTimeBetween = 1500;
+        iMaxRound = 1;
+        setRound();
+        setScore();
     }
     
     public Vector<eSimonColor> generateSequence(Integer iLenghtSequence)
@@ -89,33 +99,7 @@ public class PlaySimon extends Activity {
     	}
 		return eColor;
     }
-    
-    
-    /*private Integer iCodificationColor(eSimonColor color, boolean shine)
-    {
-    	Integer iCodificationColor = 0;
-    	switch (color)
-    	{
-    	case Green :
-    		if(shine) iCodificationColor =  0x0000;
-    		else iCodificationColor = 0x8000;
-    		break;
-    	case Red : 
-    		if(shine) iCodificationColor =  0x0000;
-			else iCodificationColor = 0xFF0000;
-    		break;
-    	case Blue :
-    		if(shine) iCodificationColor =  0x0000;
-    		else iCodificationColor = 0x1E90FF;
-    		break;
-    	case Yellow :
-    		if(shine) iCodificationColor =  0x0000;
-    		else iCodificationColor = 0xFFD700;
-    		break;
-    	
-    	}
-		return iCodificationColor;
-    }*/
+
     
     private Integer iCodificationColor(eSimonColor eColor, boolean shine)
     {
@@ -191,6 +175,20 @@ public class PlaySimon extends Activity {
     	
     }
     
+    private void setRound()
+    {
+    	String sAux = " " + iRound;
+    	TextView textView1=(TextView)findViewById(R.id.SimonRound);
+    	textView1.setText(sAux);
+    }
+    
+    private void setScore()
+    {
+    	String sAux = " " + iScore;
+    	TextView textView1=(TextView)findViewById(R.id.SimonScore);
+    	textView1.setText(sAux);	
+    }
+    
     
     private void setAllColorsClickable(boolean bClickable)
     {
@@ -216,34 +214,6 @@ public class PlaySimon extends Activity {
     	  }
     	 };
 
-/*	
-    
-    private void shineColorTextView(Integer id)
-    {
-    	TextView textView=(TextView)findViewById(id);
-    	textView.setBackgroundColor(Color.BLACK); 
-    	
-    	// SLEEP 0.1 SECONDS HERE ...
-        Handler handler_g = new Handler(); 
-        handler_g.postDelayed(new Runnable() { 
-             public void run() { 
-       		  TextView textView=(TextView)findViewById(iIDColorPressed);
-       		  textView.setBackgroundColor(iOriginalColor); 
-             } 
-        }, 100); 
-    	
-    }
-    
-
-    
-    public void shineColor(View v) {
-    	iIDColorPressed = v.getId();
-    	iOriginalColor = Color.GRAY;//getResources().getColor(v.getId());
-    	
-    	
-    	shineColorTextView(v.getId());
-    }
-    */
     public void startSimon(View v) {
 		
 		Thread th1 = new Thread(new Runnable() {
@@ -289,7 +259,6 @@ public class PlaySimon extends Activity {
 		Thread th1 = new Thread(new Runnable() {
 			public void run() {
 
-			
 				Message msg = new Message();
 				msg.obj = (Integer)iIDColorPressed;
 				handler.sendMessage(msg);
@@ -328,7 +297,6 @@ public class PlaySimon extends Activity {
     	iIDColorPressed = v.getId();
  		blinkColorTouch();
  	   
-    	
     	if(vSequence.get(iIndexNextColor) == eColor(iIDColorPressed)) {
     		//Hit
     		iIndexNextColor++;
@@ -337,15 +305,44 @@ public class PlaySimon extends Activity {
     			increaseLevel();
     			bPlayerTurn = false;
     			iIndexNextColor = 0;
-    		}
-    		
+    	        ++iRound;
+    	        iScore +=iIncrementScore;
+	        	setScore();
+    	        if(iRound <=iMaxRound)
+    	        {
+    	        	setRound();
+    	        } else {
+    	        	//Display You Win
+    	        	 endGameAlert(v, "You win, you have completed all rounds");
+    	        }
+    		}	
     	} else {
     		//Fail
     		bPlayerTurn = false;
     		iIndexNextColor = 0;
-    	}
-    	
+    		endGameAlert(v, "You lose, you haven't completed all rounds");
+    	} 	
     }
 
+    
+
+    public void endGameAlert(View view, String sText) {
+
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(sText)
+    	.setCancelable(false)
+    	.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int id) {
+    	
+    	}
+    	})
+    	.setNegativeButton("Again", new DialogInterface.OnClickListener() {
+    	public void onClick(DialogInterface dialog, int id) {
+    		initConfig();
+    	}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
     
 }
