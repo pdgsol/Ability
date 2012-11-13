@@ -10,7 +10,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class PlaySimon extends Activity {
@@ -42,7 +44,8 @@ public class PlaySimon extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_simon);
-        initConfig();    }
+        initConfig();    
+    }
     
     private void initConfig()
     {
@@ -178,6 +181,8 @@ public class PlaySimon extends Activity {
     private void setRound()
     {
     	String sAux = " " + iRound;
+    	sAux += " of ";
+		sAux +=  "" + iMaxRound;
     	TextView textView1=(TextView)findViewById(R.id.SimonRound);
     	textView1.setText(sAux);
     }
@@ -313,14 +318,14 @@ public class PlaySimon extends Activity {
     	        	setRound();
     	        } else {
     	        	//Display You Win
-    	        	 endGameAlert(v, "You win, you have completed all rounds");
+    	        	 endGameAlert(v, "Congratulations\nYou have completed all rounds\nYou Score is : " + iScore);
     	        }
     		}	
     	} else {
     		//Fail
     		bPlayerTurn = false;
     		iIndexNextColor = 0;
-    		endGameAlert(v, "You lose, you haven't completed all rounds");
+    		endGameAlert(v, "You lose\nYou haven't completed all rounds\nYou Score is : " + iScore);
     	} 	
     }
 
@@ -328,21 +333,80 @@ public class PlaySimon extends Activity {
 
     public void endGameAlert(View view, String sText) {
 
+    	
+		// get prompts.xml view
+		LayoutInflater li = LayoutInflater.from(this);
+		View alertEndGameView = li.inflate(R.layout.alert_end_game, null);
+		
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+
+		// set prompts.xml to alertdialog builder
+		alertDialogBuilder.setView(alertEndGameView);
+
+
+
+		final EditText userInput = (EditText) alertEndGameView
+				.findViewById(R.id.end_game_nick_ranking);
+		
+		// set dialog message
+		alertDialogBuilder
+			.setMessage(sText)
+			.setCancelable(false)
+			.setPositiveButton("Continue",
+			  new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog,int id) {
+				// get user input and set it to result
+				// edit text
+	
+			    }
+			  })
+			.setNegativeButton("Try Again",
+			  new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog,int id) {
+			    	initConfig();
+			    	dialog.cancel();
+			    }
+			  });
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
+    	
+    	/*LayoutInflater li = LayoutInflater.from(this);
+		View promptsView = li.inflate(R.layout.prompts, null);
+    	
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage(sText)
     	.setCancelable(false)
+    	.setView(view)
     	.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
     	public void onClick(DialogInterface dialog, int id) {
     	
     	}
     	})
-    	.setNegativeButton("Again", new DialogInterface.OnClickListener() {
+    	.setNegativeButton("Try again", new DialogInterface.OnClickListener() {
     	public void onClick(DialogInterface dialog, int id) {
     		initConfig();
     	}
     	});
     	AlertDialog alert = builder.create();
-    	alert.show();
+    	//final EditText input = new EditText(this);
+    	
+    	
+    	//CheckBox c = new CheckBox(this);
+    		
+    	
+    	//alert.setContentView(R.layout.alert_view);
+    	//alert.setView(input);
+    	//alert.setView(c);
+    	alert.show();*/
+
     }
+    
+
     
 }

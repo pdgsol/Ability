@@ -25,5 +25,8 @@
     
 	<string name="simon_ranking">Simon Ranking</string>
     <string name="dodging_ranking">Dodging Ranking</string>
-	
+    
+    <string name="end_game_alert_save_ranking">Do you want save Score in Ranking?</string>
+    
+
 </resources>
