@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -318,20 +319,20 @@ public class PlaySimon extends Activity {
     	        	setRound();
     	        } else {
     	        	//Display You Win
-    	        	 endGameAlert(v, "Congratulations\nYou have completed all rounds\nYou Score is : " + iScore);
+    	        	 endGameAlert(v, "Congratulations\nYou have completed all rounds", "You Score is : " + iScore);
     	        }
     		}	
     	} else {
     		//Fail
     		bPlayerTurn = false;
     		iIndexNextColor = 0;
-    		endGameAlert(v, "You lose\nYou haven't completed all rounds\nYou Score is : " + iScore);
+    		endGameAlert(v, "You lose\nYou haven't completed all rounds\n","You Score is : " + iScore);
     	} 	
     }
 
     
 
-    public void endGameAlert(View view, String sText) {
+    public void endGameAlert(View view, String sTitle, String sScore) {
 
     	
 		// get prompts.xml view
@@ -346,25 +347,46 @@ public class PlaySimon extends Activity {
 		alertDialogBuilder.setView(alertEndGameView);
 
 
+		 TextView textView = (TextView) alertEndGameView
+				.findViewById(R.id.end_game_textView_title);
+		 textView.setText(sTitle);
+		
+		 textView = (TextView) alertEndGameView
+				.findViewById(R.id.end_game_textView_score);
+		 textView.setText(sScore);
+		 
+		 final CheckBox checkBox = (CheckBox) alertEndGameView
+					.findViewById(R.id.end_game_checkBox);
 
-		final EditText userInput = (EditText) alertEndGameView
+		 final EditText userInput = (EditText) alertEndGameView
 				.findViewById(R.id.end_game_nick_ranking);
+		
 		
 		// set dialog message
 		alertDialogBuilder
-			.setMessage(sText)
 			.setCancelable(false)
 			.setPositiveButton("Continue",
 			  new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog,int id) {
 				// get user input and set it to result
 				// edit text
+		    	if(checkBox.isChecked())
+		    	{
+		    		//Save Value in Ranking
+		    		//Open_Alert_Ranking
+
+		    	}
 	
 			    }
 			  })
 			.setNegativeButton("Try Again",
 			  new DialogInterface.OnClickListener() {
 			    public void onClick(DialogInterface dialog,int id) {
+			    	
+			    	if(checkBox.isChecked())
+			    	{
+			    		//Save Value in Ranking
+			    	}
 			    	initConfig();
 			    	dialog.cancel();
 			    }

@@ -41,7 +41,7 @@ public final class R {
         public static final int button_Play_Simon=0x7f080008;
         public static final int button_Start_Simon=0x7f080018;
         public static final int button_exit_Simon=0x7f080019;
-        public static final int checkBox1=0x7f080022;
+        public static final int end_game_checkBox=0x7f080022;
         public static final int end_game_nick_ranking=0x7f080020;
         public static final int end_game_textView_score=0x7f08001e;
         public static final int end_game_textView_title=0x7f08001d;
