@@ -28,5 +28,9 @@
     
     <string name="end_game_alert_save_ranking">Do you want save Score in Ranking?</string>
     
+  
+    <string name="date_base_name">Ranking</string>
+    <string name="simon_ranking_nametable">RankingSimon</string>
+    <string name="dodging_ranking_nametable">RankingDodging</string>
 
 </resources>

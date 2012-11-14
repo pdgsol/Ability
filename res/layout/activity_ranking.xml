@@ -28,9 +28,11 @@
                 <TextView android:id="@+id/textView1"
                     android:text="@string/simon_ranking"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-          
-        	</LinearLayout>
+                    android:layout_height="wrap_content" />         
+               <TableLayout android:id="@+id/simon_ranking_tableLayout"
+				    android:layout_width="fill_parent"
+				    android:layout_height="fill_parent"/>
+			</LinearLayout>
  
             <LinearLayout android:id="@+id/tab_dodging_ranking"
                 android:orientation="vertical"
@@ -40,6 +42,10 @@
                     android:text="@string/dodging_ranking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+               
+               	<TableLayout android:id="@+id/dodging_ranking_tableLayout"
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"/>
        		</LinearLayout>
  
          </FrameLayout>

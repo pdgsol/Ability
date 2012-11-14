@@ -1,15 +1,18 @@
 package com.example.ability;
 
+import java.util.Calendar;
 import java.util.Random;
 import java.util.Vector;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -358,11 +361,19 @@ public class PlaySimon extends Activity {
 		 final CheckBox checkBox = (CheckBox) alertEndGameView
 					.findViewById(R.id.end_game_checkBox);
 
-		 final EditText userInput = (EditText) alertEndGameView
+	 	final EditText userInput = (EditText) alertEndGameView
 				.findViewById(R.id.end_game_nick_ranking);
-		
-		
-		// set dialog message
+    	final Intent rankingActivity = new Intent(this, Ranking.class);
+	 	final Ranking_DataController ranking_DataController = new Ranking_DataController(this);
+
+	 	final Integer score = iScore;
+	 	final Integer round = iRound;
+
+
+	 	final Calendar c = Calendar.getInstance();
+ 	    final String date =  c.get(Calendar.DAY_OF_MONTH)+"-"+ c.get(Calendar.MONTH)+"-"+ c.get(Calendar.YEAR)%100;
+	 	    
+	 	// set dialog message
 		alertDialogBuilder
 			.setCancelable(false)
 			.setPositiveButton("Continue",
@@ -370,13 +381,17 @@ public class PlaySimon extends Activity {
 			    public void onClick(DialogInterface dialog,int id) {
 				// get user input and set it to result
 				// edit text
-		    	if(checkBox.isChecked())
-		    	{
-		    		//Save Value in Ranking
-		    		//Open_Alert_Ranking
+			    	if(checkBox.isChecked())
+			    	{
+			    		String sNick = userInput.getText().toString();
+			    		if(sNick.equals("")) {
+			    			sNick = "unknown";
+			    		} 
+			    		
+			    		ranking_DataController.newtPlayerRankingSimon(sNick, date, round, score);
+			    		startActivity(rankingActivity);
+			    	}
 
-		    	}
-	
 			    }
 			  })
 			.setNegativeButton("Try Again",
