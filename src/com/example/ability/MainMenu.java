@@ -27,28 +27,25 @@ public class MainMenu extends Activity {
  
     
     public void openPlayView(View view) {
-    	//Utils u = new Utils();
-    	//u.openView(this, Play.class);
-    	
     	Intent intent = new Intent(this, Play.class);
         startActivity(intent);
     }
     
     public void openRankingView(View view) {
-    	//Utils u = new Utils();
-    	//u.openView(this, Play.class);
-    	
     	Intent intent = new Intent(this, Ranking.class);
         startActivity(intent);
     }
     
     public void openHelpView(View view) {
-    	//Utils u = new Utils();
-    	//u.openView(this, Play.class);
-    	
     	Intent intent = new Intent(this, Ranking.class);
         startActivity(intent);
     }
+    
+    public void openSettingsView(View view) {
+    	Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
+    }
+    
 
     public void exitAlert(View view) {
 

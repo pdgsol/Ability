@@ -22,6 +22,9 @@ public class Play extends Activity {
     }
     
     public void openPlayDodgingView(View view) {
+    	
+    	Intent intent = new Intent(this, DodgingPlay.class);
+        startActivity(intent);
     	//Utils u = new Utils();
     	//u.openView(this, Play.class);
     	

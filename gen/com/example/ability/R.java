@@ -18,10 +18,7 @@ public final class R {
     public static final class drawable {
         public static final int ic_action_search=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int simon_blue_1=0x7f020002;
-        public static final int simon_red_1=0x7f020003;
-        public static final int simon_verde_1=0x7f020004;
-        public static final int simon_yellow_1=0x7f020005;
+        public static final int q1=0x7f020002;
     }
     public static final class id {
         public static final int SimonBlue=0x7f080016;
@@ -76,8 +73,9 @@ public final class R {
         public static final int activity_play=0x7f030001;
         public static final int activity_play_simon=0x7f030002;
         public static final int activity_ranking=0x7f030003;
-        public static final int alert_end_game=0x7f030004;
-        public static final int simon_shared_preferences=0x7f030005;
+        public static final int activity_settings=0x7f030004;
+        public static final int alert_end_game=0x7f030005;
+        public static final int simon_shared_preferences=0x7f030006;
     }
     public static final class menu {
         public static final int activity_main_menu=0x7f070000;
@@ -85,33 +83,35 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f050000;
-        public static final int date_base_name=0x7f050014;
-        public static final int dodging=0x7f05000e;
-        public static final int dodging_ranking=0x7f050012;
-        public static final int dodging_ranking_nametable=0x7f050016;
-        public static final int end_game_alert_save_ranking=0x7f050013;
+        public static final int date_base_name=0x7f050016;
+        public static final int dodging=0x7f050010;
+        public static final int dodging_ranking=0x7f050014;
+        public static final int dodging_ranking_nametable=0x7f050018;
+        public static final int end_game_alert_save_ranking=0x7f050015;
         public static final int exit=0x7f050006;
-        public static final int game_menu_exit=0x7f05001b;
-        public static final int game_menu_help=0x7f050019;
-        public static final int game_menu_options=0x7f05001a;
-        public static final int game_menu_restart=0x7f050018;
-        public static final int game_menu_return=0x7f050017;
+        public static final int game_menu_exit=0x7f05001d;
+        public static final int game_menu_help=0x7f05001b;
+        public static final int game_menu_options=0x7f05001c;
+        public static final int game_menu_restart=0x7f05001a;
+        public static final int game_menu_return=0x7f050019;
         public static final int hello_world=0x7f050001;
         public static final int help=0x7f050005;
         public static final int menu_settings=0x7f050007;
         public static final int play=0x7f050002;
         public static final int ranking=0x7f050003;
-        public static final int round=0x7f05000f;
-        public static final int score=0x7f050010;
+        public static final int round=0x7f050011;
+        public static final int score=0x7f050012;
         public static final int settings=0x7f050004;
-        public static final int simon=0x7f05000d;
-        public static final int simon_ranking=0x7f050011;
-        public static final int simon_ranking_nametable=0x7f050015;
+        public static final int simon=0x7f05000f;
+        public static final int simon_ranking=0x7f050013;
+        public static final int simon_ranking_nametable=0x7f050017;
+        public static final int title_activity_dodging_play=0x7f05000d;
         public static final int title_activity_help=0x7f05000b;
         public static final int title_activity_main_menu=0x7f050008;
         public static final int title_activity_play=0x7f050009;
         public static final int title_activity_play_simon=0x7f05000c;
         public static final int title_activity_ranking=0x7f05000a;
+        public static final int title_activity_settings=0x7f05000e;
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;
