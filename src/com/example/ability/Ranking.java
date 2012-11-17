@@ -1,8 +1,10 @@
 package com.example.ability;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.TabHost;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -85,6 +87,15 @@ public class Ranking extends Activity {
 		}
     }
     
-    
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	Intent activity = new Intent(this, MainMenu.class);
+	    	startActivity(activity);
+	    	//moveTaskToBack(true);
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
     
 }

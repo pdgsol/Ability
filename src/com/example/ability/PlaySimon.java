@@ -8,15 +8,22 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.Time;
+import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class PlaySimon extends Activity {
@@ -34,7 +41,6 @@ public class PlaySimon extends Activity {
     private Integer iRound;
     private Integer iMaxRound;
     private Integer iScore;
-    private Integer iInitialLevel;
     private Vector<eSimonColor> vSequence;
     private Integer iActualarIDColor;
     private Integer iIndexNextColor;
@@ -42,28 +48,59 @@ public class PlaySimon extends Activity {
     private boolean bPlayerTurn = false;
     private Integer iTimeBlink;
     private Integer iTimeBetween;
-    private Integer iIncrementScore = 10;
+    private SharedPreferences prefs;
  
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_simon);
-        initConfig();    
+        initConfig(); 
+		RelativeLayout tl = (RelativeLayout)findViewById(R.id.relative_layout_simon); 
+		registerForContextMenu(tl);
+    }
+    
+    private void restartGame()
+    {
+    	prefs = getSharedPreferences("Preferences",this.MODE_PRIVATE);
+    	SharedPreferences.Editor editor = prefs.edit();
+    	editor.putBoolean("simon_save_game", false);
+    	initConfig();
     }
     
     private void initConfig()
     {
-        iInitialLevel = 2;
+    	prefs = getSharedPreferences("Preferences",this.MODE_PRIVATE);
+
+    	if(prefs.getBoolean("simon_save_game", false)) {
+	        iRound = prefs.getInt("simon_save_party_round", 1);
+	        iScore = prefs.getInt("simon_save_party_score", 0);
+    	} else {
+    		iRound = 1;
+    		iScore = 0;
+    	}
+    	
         iIndexNextColor = 0;
-        generateSequence((iInitialLevel));  
+        generateSequence(iRound+1);  
         setAllColorsClickable(false);
-        iRound = 1;
-        iScore = 0;
         iTimeBlink = 500;
         iTimeBetween = 1500;
-        iMaxRound = 1;
+        iMaxRound =  prefs.getInt("simon_max_rounds", 10);
         setRound();
         setScore();
+        
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("simon_save_game", false);
+		editor.commit();
+    }
+    
+    private void saveSimonGame()
+    {
+    	prefs = getSharedPreferences("Preferences",this.MODE_PRIVATE);
+    	SharedPreferences.Editor editor = prefs.edit();
+    	editor.putBoolean("simon_save_game", true);
+    	editor.putInt("simon_save_party_round", iRound);
+    	editor.putInt("simon_save_party_score", iScore);
+    	editor.commit();
     }
     
     public Vector<eSimonColor> generateSequence(Integer iLenghtSequence)
@@ -179,7 +216,6 @@ public class PlaySimon extends Activity {
     	
     	}
 		return color;
-    	
     }
     
     private void setRound()
@@ -315,7 +351,7 @@ public class PlaySimon extends Activity {
     			bPlayerTurn = false;
     			iIndexNextColor = 0;
     	        ++iRound;
-    	        iScore +=iIncrementScore;
+    	        iScore +=iRound;
 	        	setScore();
     	        if(iRound <=iMaxRound)
     	        {
@@ -402,7 +438,7 @@ public class PlaySimon extends Activity {
 			    	{
 			    		//Save Value in Ranking
 			    	}
-			    	initConfig();
+			    	restartGame();
 			    	dialog.cancel();
 			    }
 			  });
@@ -445,5 +481,92 @@ public class PlaySimon extends Activity {
     }
     
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.game_menu, menu);
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.game_menu_return:
+				//lblMensaje.setText("Etiqueta: Opcion 1 pulsada!");
+				return true;
+			case R.id.game_menu_restart:
+				restartGameAlert();
+				return true;
+			case R.id.game_menu_help:
+				saveSimonGame();
+				//Intent helpActivity = new Intent(this, Help.class);
+				//startActivity(helpActivity);
+				return true;
+			case R.id.game_menu_options:
+				//Intent settingsActivity = new Intent(this, Settings.class);
+				//startActivity(settingsActivity);
+				return true;
+			case R.id.game_menu_exit:
+				exitGameAlert();
+				
+				return true;
+			default:
+			return super.onContextItemSelected(item);
+		}
+	}
+	
+	public void exitGameAlert() {
+		final Intent mainMenuActivity = new Intent(this, MainMenu.class);
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Are you sure you want to exit?")
+    	.setCancelable(false)
+    	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	    	public void onClick(DialogInterface dialog, int id) {
+	    		restartGame();
+	    		startActivity(mainMenuActivity);
+	    	}
+    	})
+    	.setNegativeButton("No", new DialogInterface.OnClickListener() {
+	    	public void onClick(DialogInterface dialog, int id) {
+	    		dialog.cancel();
+	    	}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
     
+    
+	public void restartGameAlert() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Are you sure you want restart Game?")
+    	.setCancelable(false)
+    	.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	    	public void onClick(DialogInterface dialog, int id) {
+	    		restartGame();
+	    	}
+    	})
+    	.setNegativeButton("No", new DialogInterface.OnClickListener() {
+	    	public void onClick(DialogInterface dialog, int id) {
+	    		dialog.cancel();
+	    	}
+    	});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	    	saveSimonGame();
+	    	Intent playActivity = new Intent(this, Play.class);
+	    	startActivity(playActivity);
+	    	//moveTaskToBack(true);
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
+	}
+	
+	
 }

@@ -32,5 +32,13 @@
     <string name="date_base_name">Ranking</string>
     <string name="simon_ranking_nametable">RankingSimon</string>
     <string name="dodging_ranking_nametable">RankingDodging</string>
+    
+    
+   <string name="game_menu_return">Return Game</string>
+   <string name="game_menu_restart">Restart Game</string>
+   <string name="game_menu_help">Help</string>
+   <string name="game_menu_options">Settings</string>
+   <string name="game_menu_exit">Exit Game</string>
+
 
 </resources>
